@@ -1,0 +1,90 @@
+{
+  "name": "pico-helper",
+  "displayName": "Pico Helper",
+  "description": "Extension to support content and theme creation for Pico CMS",
+  "version": "0.0.3",
+  "engines": { "vscode": "^1.102.0" },
+  "categories": ["Other"],
+  "keywords": ["pico", "cms", "twig", "markdown", "lint", "preview", "snippet", "autocomplete"],
+  "license": "MIT",
+
+  "activationEvents": [],
+
+  "main": "./out/extension.js",
+
+  "contributes": {
+    "commands": [
+      { "command": "pico-helper.helloWorld", "title": "Hello World" },
+      { "command": "pico-helper.createMarkdown", "title": "Pico CMS: สร้าง Markdown ใหม่" },
+      { "command": "pico-helper.preview", "title": "Pico: Live Preview (Markdown)" },
+      { "command": "pico-helper.lintFile", "title": "Pico: Lint/ตรวจสอบไฟล์ปัจจุบัน" }
+    ],
+    "keybindings": [
+      {
+        "command": "pico-helper.preview",
+        "key": "ctrl+alt+v",
+        "mac": "cmd+alt+v",
+        "when": "editorTextFocus && editorLangId == markdown"
+      },
+      {
+        "command": "pico-helper.lintFile",
+        "key": "ctrl+alt+l",
+        "mac": "cmd+alt+l",
+        "when": "editorTextFocus && (editorLangId == markdown || editorLangId == twig)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        { "command": "pico-helper.preview", "group": "navigation@9", "when": "resourceLangId == markdown" },
+        { "command": "pico-helper.lintFile", "group": "navigation@10", "when": "resourceLangId == markdown || resourceLangId == twig" }
+      ],
+      "editor/context": [
+        { "command": "pico-helper.preview", "group": "navigation@9", "when": "resourceLangId == markdown" },
+        { "command": "pico-helper.lintFile", "group": "navigation@10", "when": "resourceLangId == markdown || resourceLangId == twig" }
+      ]
+    },
+    "languages": [
+      { "id": "twig", "aliases": ["Twig"], "extensions": [".twig"] }
+    ],
+    "snippets": [
+      { "language": "twig", "path": "./snippets/twig.json" },
+      { "language": "markdown", "path": "./snippets/markdown.json" }
+    ],
+    "configurationDefaults": {
+      "[markdown]": {
+        "editor.snippetSuggestions": "top",
+        "editor.suggestOnTriggerCharacters": true,
+        "editor.quickSuggestions": { "other": true, "comments": true, "strings": true },
+        "editor.quickSuggestionsDelay": 0,
+        "editor.wordBasedSuggestions": "off"
+      },
+      "[twig]": {
+        "editor.snippetSuggestions": "top",
+        "editor.suggestOnTriggerCharacters": true,
+        "editor.quickSuggestions": { "other": true, "comments": true, "strings": true },
+        "editor.quickSuggestionsDelay": 0,
+        "editor.wordBasedSuggestions": "off"
+      }
+    }
+  },
+
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src || true",
+    "test": "echo \"No tests yet\""
+  },
+
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.102.0",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.19.0",
+    "typescript": "^5.7.3"
+  }
+}

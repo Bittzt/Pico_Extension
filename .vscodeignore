@@ -1,0 +1,32 @@
+# ========================
+# VS Code Ignore
+# ========================
+
+# โฟลเดอร์ VSCode ชั่วคราว
+.vscode/**
+.vscode-test/**
+
+# Source code (จะใช้ไฟล์ที่ build แล้วใน out/)
+src/**
+
+# ไฟล์ระบบ / config ที่ไม่จำเป็น
+.gitignore
+.yarnrc
+.vsc-extension-quickstart.md
+tsconfig.json
+eslint.config.mjs
+*.map
+*.ts
+
+# Test files
+test/**
+**/*.test.*
+**/__tests__/**
+
+# Node / Package
+node_modules/.bin/**
+package-lock.json
+package.notes.jsonc
+
+# เนื้อหาตัวอย่าง / Demo
+Content/**

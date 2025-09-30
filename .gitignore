@@ -1,0 +1,33 @@
+# ============ Node.js ============
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ============ Build outputs ============
+out/
+dist/
+*.vsix
+
+# ============ TypeScript ============
+*.tsbuildinfo
+
+# ============ VS Code ============
+.vscode-test/
+.vscode/**
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# ============ OS / Editor ============
+.DS_Store
+Thumbs.db
+
+# ============ Coverage / Test ============
+coverage/
+*.lcov
+
+# ============ Others ============
+*.log

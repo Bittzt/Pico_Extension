@@ -1,0 +1,11 @@
+{
+  "default": true,
+
+  // ปิดกฎที่ชอบเตือนในไฟล์เนื้อหาเว็บ
+  "MD003": false,  // heading-style (ขนาด # ไม่ตรง style)
+  "MD018": false,  // no-missing-space-atx (#About → เราอนุโลม)
+  "MD009": false,  // no-trailing-spaces (อนุโลมช่องว่างท้ายบรรทัด)
+  "MD022": false,  // blanks-around-headings (บรรทัดว่างรอบหัวข้อ)
+  "MD025": false,  // single-h1 (อนุญาตหลาย H1 ในหน้าเดโม่)
+  "MD041": false   // first-line-heading (บรรทัดแรกต้องเป็น H1)
+}

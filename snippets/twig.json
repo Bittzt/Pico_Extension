@@ -1,0 +1,18 @@
+{
+  "Twig: extends": {
+    "prefix": ["twig-extends"],
+    "body": ["{% extends \"${1:layout}.twig\" %}"]
+  },
+  "Twig: block": {
+    "prefix": ["twig-block"],
+    "body": [
+      "{% block ${1:content} %}",
+      "  ${0}",
+      "{% endblock %}"
+    ]
+  },
+  "Twig: include": {
+    "prefix": ["twig-include"],
+    "body": ["{% include \"${1:partials/header}.twig\" %}"]
+  }
+}

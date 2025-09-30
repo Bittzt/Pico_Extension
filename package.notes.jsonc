@@ -1,0 +1,99 @@
+{
+  "name": "pico-helper",                       // ชื่อ extension (ใช้เวลาติดตั้ง/ค้นหาใน Marketplace)
+  "displayName": "Pico Helper",               // ชื่อที่แสดงให้ผู้ใช้เห็นใน VS Code
+  "description": "Extension to support content and theme creation for Pico CMS", 
+                                               // คำอธิบายสั้น ๆ ของ extension
+  "version": "0.0.3",                          // เวอร์ชัน (ต้องอัปเดตทุกครั้งที่ publish ใหม่)
+  "engines": { "vscode": "^1.102.0" },         // ระบุว่าใช้กับ VS Code เวอร์ชันไหนขึ้นไป
+  "categories": ["Other"],                     // หมวดหมู่ใน Marketplace (ตอนนี้จัดอยู่ใน Other)
+  "keywords": ["pico", "cms", "twig", "markdown", "lint", "preview", "snippet", "autocomplete"],
+                                               // คีย์เวิร์ดเพื่อช่วยให้ค้นหาเจอใน Marketplace
+  "license": "MIT",                            // ใบอนุญาต (ตอนนี้ MIT, แบบเปิดให้ใช้ฟรีได้)
+
+  "activationEvents": [                        // เงื่อนไขการเปิดใช้งาน extension
+    "onCommand:pico-helper.helloWorld",        // เปิดเมื่อสั่ง command: helloWorld
+    "onCommand:pico-helper.createMarkdown",    // เปิดเมื่อสั่ง command: createMarkdown
+    "onCommand:pico-helper.preview",           // เปิดเมื่อสั่ง command: preview
+    "onCommand:pico-helper.lintFile",          // เปิดเมื่อสั่ง command: lintFile
+    "onLanguage:markdown",                     // เปิดอัตโนมัติถ้าเจอไฟล์ .md
+    "onLanguage:twig"                          // เปิดอัตโนมัติถ้าเจอไฟล์ .twig
+  ],
+
+  "main": "./out/extension.js",                // entry point ของโค้ดส่วนขยาย (ไฟล์ compiled JS)
+
+  "contributes": {                             // ระบุว่ามีอะไรเพิ่มเข้ากับ VS Code
+    "commands": [                              // รายการคำสั่งที่เพิ่มเข้าไป
+      { "command": "pico-helper.helloWorld", "title": "Hello World" },
+      { "command": "pico-helper.createMarkdown", "title": "Pico CMS: สร้าง Markdown ใหม่" },
+      { "command": "pico-helper.preview", "title": "Pico: Live Preview (Markdown)" },
+      { "command": "pico-helper.lintFile", "title": "Pico: Lint/ตรวจสอบไฟล์ปัจจุบัน" }
+    ],
+    "keybindings": [                           // คีย์ลัดที่ผู้ใช้กดเรียก command ได้
+      {
+        "command": "pico-helper.preview",
+        "key": "ctrl+alt+v",                   // Windows/Linux
+        "mac": "cmd+alt+v",                    // Mac
+        "when": "editorTextFocus && editorLangId == markdown"
+      },
+      {
+        "command": "pico-helper.lintFile",
+        "key": "ctrl+alt+l",
+        "mac": "cmd+alt+l",
+        "when": "editorTextFocus && (editorLangId == markdown || editorLangId == twig)"
+      }
+    ],
+    "menus": {                                 // เพิ่มเมนูคลิกขวา/แถบเครื่องมือ
+      "editor/title": [
+        { "command": "pico-helper.preview", "group": "navigation@9", "when": "resourceLangId == markdown" },
+        { "command": "pico-helper.lintFile", "group": "navigation@10", "when": "resourceLangId == markdown || resourceLangId == twig" }
+      ],
+      "editor/context": [
+        { "command": "pico-helper.preview", "group": "navigation@9", "when": "resourceLangId == markdown" },
+        { "command": "pico-helper.lintFile", "group": "navigation@10", "when": "resourceLangId == markdown || resourceLangId == twig" }
+      ]
+    ],
+    "languages": [                             // ลงทะเบียนภาษาเพิ่ม (.twig)
+      { "id": "twig", "aliases": ["Twig"], "extensions": [".twig"] }
+    ],
+    "snippets": [                              // ไฟล์ snippets (auto-complete templates)
+      { "language": "twig", "path": "./snippets/twig.json" },
+      { "language": "markdown", "path": "./snippets/markdown.json" }
+    ],
+    "configurationDefaults": {                 // ค่า default ของ editor เวลาเปิดไฟล์ md/twig
+      "[markdown]": {
+        "editor.snippetSuggestions": "top",
+        "editor.suggestOnTriggerCharacters": true,
+        "editor.quickSuggestions": { "other": true, "comments": true, "strings": true },
+        "editor.quickSuggestionsDelay": 0,
+        "editor.wordBasedSuggestions": false
+      },
+      "[twig]": {
+        "editor.snippetSuggestions": "top",
+        "editor.suggestOnTriggerCharacters": true,
+        "editor.quickSuggestions": { "other": true, "comments": true, "strings": true },
+        "editor.quickSuggestionsDelay": 0,
+        "editor.wordBasedSuggestions": false
+      }
+    }
+  },
+
+  "scripts": {                                 // คำสั่ง npm script
+    "vscode:prepublish": "npm run compile",    // ก่อน publish ให้ compile ก่อน
+    "compile": "tsc -p ./",                    // คอมไพล์ TypeScript → JS
+    "watch": "tsc -watch -p ./",               // คอมไพล์อัตโนมัติเมื่อแก้ไฟล์
+    "lint": "eslint src || true",              // ตรวจโค้ดด้วย ESLint
+    "test": "echo \"No tests yet\""            // ตอนนี้ยังไม่มี test
+  },
+
+  "devDependencies": {                         // lib ที่ใช้เฉพาะตอน dev
+    "@types/mocha": "^10.0.10",                // types ของ mocha (test framework)
+    "@types/node": "20.x",                     // types ของ Node.js
+    "@types/vscode": "^1.102.0",               // types ของ VS Code API
+    "@typescript-eslint/eslint-plugin": "^8.22.0", // ESLint plugin สำหรับ TypeScript
+    "@typescript-eslint/parser": "^8.22.0",    // parser ของ ESLint สำหรับ TS
+    "@vscode/test-cli": "^0.0.10",             // CLI สำหรับรัน test ของ extension
+    "@vscode/test-electron": "^2.4.1",         // ใช้ทดสอบ extension ใน Electron
+    "eslint": "^9.19.0",                       // ESLint ตัวหลัก
+    "typescript": "^5.7.3"                     // TypeScript compiler
+  }
+}

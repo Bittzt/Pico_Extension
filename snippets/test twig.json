@@ -1,0 +1,12 @@
+{{% block content %}
+  
+{% endblock %}}
+
+{{% include "partials/header.twig" %}}
+
+{{% include "partials/header.twig" %}}
+
+{{% block content %}
+  
+   
+{% endblock %}}
