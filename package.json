@@ -1,14 +1,34 @@
 {
   "name": "pico-helper",
   "displayName": "Pico Helper",
-  "description": "Extension to support content and theme creation for Pico CMS",
-  "version": "0.0.3",
+  "description": "Tools for creating Pico CMS content/themes: new Markdown with front matter, live preview, basic lint, snippets & autocomplete.",
+  "version": "0.0.5",
+  "publisher": "<YOUR_PUBLISHER_ID>",
   "engines": { "vscode": "^1.102.0" },
   "categories": ["Other"],
   "keywords": ["pico", "cms", "twig", "markdown", "lint", "preview", "snippet", "autocomplete"],
   "license": "MIT",
 
-  "activationEvents": [],
+  "icon": "images/icon.png",
+  "galleryBanner": { "color": "#0d1117", "theme": "dark" },
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bittzt/Pico_Extension"
+  },
+  "bugs": {
+    "url": "https://github.com/Bittzt/Pico_Extension/issues"
+  },
+  "homepage": "https://github.com/Bittzt/Pico_Extension#readme",
+
+  "activationEvents": [
+    "onCommand:pico-helper.helloWorld",
+    "onCommand:pico-helper.createMarkdown",
+    "onCommand:pico-helper.preview",
+    "onCommand:pico-helper.lintFile",
+    "onLanguage:markdown",
+    "onLanguage:twig"
+  ],
 
   "main": "./out/extension.js",
 
@@ -24,23 +44,23 @@
         "command": "pico-helper.preview",
         "key": "ctrl+alt+v",
         "mac": "cmd+alt+v",
-        "when": "editorTextFocus && editorLangId == markdown"
+        "when": "editorTextFocus && editorLangId == 'markdown'"
       },
       {
         "command": "pico-helper.lintFile",
         "key": "ctrl+alt+l",
         "mac": "cmd+alt+l",
-        "when": "editorTextFocus && (editorLangId == markdown || editorLangId == twig)"
+        "when": "editorTextFocus && (editorLangId == 'markdown' || editorLangId == 'twig')"
       }
     ],
     "menus": {
       "editor/title": [
-        { "command": "pico-helper.preview", "group": "navigation@9", "when": "resourceLangId == markdown" },
-        { "command": "pico-helper.lintFile", "group": "navigation@10", "when": "resourceLangId == markdown || resourceLangId == twig" }
+        { "command": "pico-helper.preview", "group": "navigation@9", "when": "resourceLangId == 'markdown'" },
+        { "command": "pico-helper.lintFile", "group": "navigation@10", "when": "resourceLangId == 'markdown' || resourceLangId == 'twig'" }
       ],
       "editor/context": [
-        { "command": "pico-helper.preview", "group": "navigation@9", "when": "resourceLangId == markdown" },
-        { "command": "pico-helper.lintFile", "group": "navigation@10", "when": "resourceLangId == markdown || resourceLangId == twig" }
+        { "command": "pico-helper.preview", "group": "navigation@9", "when": "resourceLangId == 'markdown'" },
+        { "command": "pico-helper.lintFile", "group": "navigation@10", "when": "resourceLangId == 'markdown' || resourceLangId == 'twig'" }
       ]
     },
     "languages": [

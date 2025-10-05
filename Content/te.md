@@ -1,8 +1,8 @@
 ---
-Title: test01
-Date: 2025-09-09
+Title: ti
+Date: 2025-10-01
 Description: คำอธิบาย
-
-# test01
+---
+# ti
 
 ยินดีต้อนรับสู่ Pico CMS
