@@ -3,7 +3,7 @@
   "displayName": "Pico Helper",
   "description": "Tools for creating Pico CMS content/themes: new Markdown with front matter, live preview, basic lint, snippets & autocomplete.",
   "version": "0.0.5",
-  "publisher": "<YOUR_PUBLISHER_ID>",
+  "publisher": "bittzt",
   "engines": { "vscode": "^1.102.0" },
   "categories": ["Other"],
   "keywords": ["pico", "cms", "twig", "markdown", "lint", "preview", "snippet", "autocomplete"],
