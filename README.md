@@ -148,6 +148,14 @@ Default editor settings for **Markdown** and **Twig** include:
 
 ## 📝 Release Notes
 
+### 0.0.7  
+- Maintenance release  
+- Internal fixes and version alignment  
+- No feature changes  
+
+**TH:** ปรับเวอร์ชันและแก้ไขภายในเล็กน้อย ไม่มีการเปลี่ยนแปลงฟีเจอร์
+
+
 ### 0.0.6  
 - เพิ่มหน้า **Login UI** ภายใน Extension (Webview Layout)  
 - เพิ่มหน้า **Register UI** พร้อมช่อง Confirm Password  
