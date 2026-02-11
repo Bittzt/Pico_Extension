@@ -2,7 +2,7 @@
   "name": "pico-helper",
   "displayName": "Pico Helper",
   "description": "Tools for creating Pico CMS content/themes: new Markdown with front matter, live preview, basic lint, snippets & autocomplete.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "bittzt",
   "engines": { "vscode": "^1.102.0" },
   "categories": ["Other"],
@@ -26,6 +26,8 @@
     "onCommand:pico-helper.createMarkdown",
     "onCommand:pico-helper.preview",
     "onCommand:pico-helper.lintFile",
+    "onCommand:pico-helper.login",
+    "onCommand:pico-helper.register",
     "onLanguage:markdown",
     "onLanguage:twig"
   ],
@@ -37,7 +39,9 @@
       { "command": "pico-helper.helloWorld", "title": "Hello World" },
       { "command": "pico-helper.createMarkdown", "title": "Pico CMS: สร้าง Markdown ใหม่" },
       { "command": "pico-helper.preview", "title": "Pico: Live Preview (Markdown)" },
-      { "command": "pico-helper.lintFile", "title": "Pico: Lint/ตรวจสอบไฟล์ปัจจุบัน" }
+      { "command": "pico-helper.lintFile", "title": "Pico: Lint/ตรวจสอบไฟล์ปัจจุบัน" },
+      { "command": "pico-helper.login", "title": "Pico Helper: Login" },
+      { "command": "pico-helper.register", "title": "Pico Helper: Register" }
     ],
     "keybindings": [
       {

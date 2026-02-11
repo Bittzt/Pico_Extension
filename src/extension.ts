@@ -19,6 +19,14 @@ export function activate(context: vscode.ExtensionContext) {
   previewBtn.show();
   context.subscriptions.push(previewBtn);
 
+  // ===== Login Status Bar Button =====
+const loginBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 98);
+loginBtn.text = '$(account) Login';
+loginBtn.command = 'pico-helper.login';
+loginBtn.tooltip = 'Login to Pico Helper';
+loginBtn.show();
+context.subscriptions.push(loginBtn);
+
   // ---- Status Bar: สถานะ Lint ----
   const lintStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
   lintStatus.text = '$(check) Lint: -';
@@ -133,6 +141,7 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
+
   // ---- Command: สร้าง Markdown ----
   context.subscriptions.push(
     vscode.commands.registerCommand('pico-helper.createMarkdown', async () => {
@@ -187,6 +196,7 @@ Description: คำอธิบาย
       await vscode.commands.executeCommand('pico-helper.preview');
     })
   );
+
 
   // ---- Autocomplete: Markdown (พิมพ์ p) ----
   context.subscriptions.push(
@@ -274,6 +284,7 @@ Tags: [\${6:tag1, tag2}]
     })
   );
 
+
   // ---- Quick Fix (Code Actions) : ใช้กับ diagnostics ที่เราสร้าง ----
   context.subscriptions.push(
     vscode.languages.registerCodeActionsProvider(
@@ -330,6 +341,178 @@ Tags: [\${6:tag1, tag2}]
       { providedCodeActionKinds: [vscode.CodeActionKind.QuickFix] }
     )
   );
+  // ===============================
+  // Login Webview (Layout Only)
+  // ===============================
+  context.subscriptions.push(
+    vscode.commands.registerCommand('pico-helper.login', () => {
+
+      const panel = vscode.window.createWebviewPanel(
+        'picoLogin',
+        'Pico Helper Login',
+        vscode.ViewColumn.One,
+        { enableScripts: true }
+      );
+
+      panel.webview.html = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            * {
+              box-sizing: border-box;
+            }
+            body {
+              font-family: system-ui;
+              background: #1e1e1e;
+              color: white;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100vh;
+              margin: 0;
+            }
+            .auth-box {
+              background: #252526;
+              padding: 30px;
+              border-radius: 12px;
+              width: 340px;
+              box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            }
+            h2 {
+              text-align: center;
+              margin-bottom: 20px;
+            }
+            input {
+              width: 100%;
+              padding: 12px;
+              margin-bottom: 15px;
+              border-radius: 6px;
+              border: 1px solid transparent;   
+              font-size: 14px;
+              appearance: none;                
+              outline: none;
+            }
+            input:focus {
+              border: 1px solid #007acc;
+            } 
+            button {
+              width: 100%;
+              padding: 12px;
+              margin-bottom: 15px;
+              border-radius: 6px;
+              border: none;
+              font-size: 14px;
+              background: #007acc;
+              color: white;
+              font-weight: bold;
+              cursor: pointer;
+            }
+            button:hover {
+              background: #005f99;
+            }
+        </style>
+        </head>
+        <body>
+          <div class="auth-box">
+            <h2>Pico Helper Login</h2>
+            <input type="email" placeholder="Email" />
+            <input type="password" placeholder="Password" />
+            <button>Login</button>
+          </div>
+        </body>
+        </html>
+      `;
+    })
+  );
+
+  // ===============================
+// Register Webview (Layout Only)
+// ===============================
+context.subscriptions.push(
+  vscode.commands.registerCommand('pico-helper.register', () => {
+
+    const panel = vscode.window.createWebviewPanel(
+      'picoRegister',
+      'Pico Helper Register',
+      vscode.ViewColumn.One,
+      { enableScripts: true }
+    );
+
+    panel.webview.html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <style>
+          * {
+            box-sizing: border-box;
+          }
+          body {
+            font-family: system-ui;
+            background: #1e1e1e;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+          }
+          .auth-box {
+            background: #252526;
+            padding: 30px;
+            border-radius: 12px;
+            width: 340px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+          }
+          h2 {
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid transparent;   
+            font-size: 14px;
+            appearance: none;                
+            outline: none;
+          }
+          input:focus {
+            border: 1px solid #007acc;
+          }
+          button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            background: #007acc;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+          }
+          button:hover {
+            background: #005f99;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="auth-box">
+          <h2>Pico Helper Register</h2>
+          <input type="email" placeholder="Email" />
+          <input type="password" placeholder="Password" />
+          <input type="password" placeholder="Confirm Password" />
+          <button>Register</button>
+        </div>
+      </body>
+      </html>
+    `;
+  })
+);
 }
 
 // ===============================

@@ -148,6 +148,19 @@ Default editor settings for **Markdown** and **Twig** include:
 
 ## 📝 Release Notes
 
+### 0.0.6  
+- เพิ่มหน้า **Login UI** ภายใน Extension (Webview Layout)  
+- เพิ่มหน้า **Register UI** พร้อมช่อง Confirm Password  
+- ปรับปรุง UI ให้ input และ button มีขนาดเท่ากัน (box-sizing fix)  
+- เตรียมโครงสร้างสำหรับ Authentication Logic ในอนาคต  
+
+**EN:**  
+- Added **Login UI** inside the extension (Webview-based layout).  
+- Added **Register UI** with Confirm Password field.  
+- Improved UI consistency (inputs and buttons now properly aligned using box-sizing fix).  
+- Prepared structure for future authentication logic integration.
+
+
 ### 0.0.5  
 - ปรับปรุง **Lint** ให้ทำงานได้เสถียร ลด false error/warning  
 - ตรวจสอบ Front Matter + Markdown + Twig ครบโดยไม่เจอ Error ที่ไม่ควรมี  
