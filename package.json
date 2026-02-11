@@ -2,16 +2,30 @@
   "name": "pico-helper",
   "displayName": "Pico Helper",
   "description": "Tools for creating Pico CMS content/themes: new Markdown with front matter, live preview, basic lint, snippets & autocomplete.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publisher": "bittzt",
-  "engines": { "vscode": "^1.102.0" },
-  "categories": ["Other"],
-  "keywords": ["pico", "cms", "twig", "markdown", "lint", "preview", "snippet", "autocomplete"],
+  "engines": {
+    "vscode": "^1.102.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "pico",
+    "cms",
+    "twig",
+    "markdown",
+    "lint",
+    "preview",
+    "snippet",
+    "autocomplete"
+  ],
   "license": "MIT",
-
   "icon": "images/icon.png",
-  "galleryBanner": { "color": "#0d1117", "theme": "dark" },
-
+  "galleryBanner": {
+    "color": "#0d1117",
+    "theme": "dark"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Bittzt/Pico_Extension"
@@ -20,7 +34,6 @@
     "url": "https://github.com/Bittzt/Pico_Extension/issues"
   },
   "homepage": "https://github.com/Bittzt/Pico_Extension#readme",
-
   "activationEvents": [
     "onCommand:pico-helper.helloWorld",
     "onCommand:pico-helper.createMarkdown",
@@ -31,17 +44,33 @@
     "onLanguage:markdown",
     "onLanguage:twig"
   ],
-
   "main": "./out/extension.js",
-
   "contributes": {
     "commands": [
-      { "command": "pico-helper.helloWorld", "title": "Hello World" },
-      { "command": "pico-helper.createMarkdown", "title": "Pico CMS: สร้าง Markdown ใหม่" },
-      { "command": "pico-helper.preview", "title": "Pico: Live Preview (Markdown)" },
-      { "command": "pico-helper.lintFile", "title": "Pico: Lint/ตรวจสอบไฟล์ปัจจุบัน" },
-      { "command": "pico-helper.login", "title": "Pico Helper: Login" },
-      { "command": "pico-helper.register", "title": "Pico Helper: Register" }
+      {
+        "command": "pico-helper.helloWorld",
+        "title": "Hello World"
+      },
+      {
+        "command": "pico-helper.createMarkdown",
+        "title": "Pico CMS: สร้าง Markdown ใหม่"
+      },
+      {
+        "command": "pico-helper.preview",
+        "title": "Pico: Live Preview (Markdown)"
+      },
+      {
+        "command": "pico-helper.lintFile",
+        "title": "Pico: Lint/ตรวจสอบไฟล์ปัจจุบัน"
+      },
+      {
+        "command": "pico-helper.login",
+        "title": "Pico Helper: Login"
+      },
+      {
+        "command": "pico-helper.register",
+        "title": "Pico Helper: Register"
+      }
     ],
     "keybindings": [
       {
@@ -59,39 +88,76 @@
     ],
     "menus": {
       "editor/title": [
-        { "command": "pico-helper.preview", "group": "navigation@9", "when": "resourceLangId == 'markdown'" },
-        { "command": "pico-helper.lintFile", "group": "navigation@10", "when": "resourceLangId == 'markdown' || resourceLangId == 'twig'" }
+        {
+          "command": "pico-helper.preview",
+          "group": "navigation@9",
+          "when": "resourceLangId == 'markdown'"
+        },
+        {
+          "command": "pico-helper.lintFile",
+          "group": "navigation@10",
+          "when": "resourceLangId == 'markdown' || resourceLangId == 'twig'"
+        }
       ],
       "editor/context": [
-        { "command": "pico-helper.preview", "group": "navigation@9", "when": "resourceLangId == 'markdown'" },
-        { "command": "pico-helper.lintFile", "group": "navigation@10", "when": "resourceLangId == 'markdown' || resourceLangId == 'twig'" }
+        {
+          "command": "pico-helper.preview",
+          "group": "navigation@9",
+          "when": "resourceLangId == 'markdown'"
+        },
+        {
+          "command": "pico-helper.lintFile",
+          "group": "navigation@10",
+          "when": "resourceLangId == 'markdown' || resourceLangId == 'twig'"
+        }
       ]
     },
     "languages": [
-      { "id": "twig", "aliases": ["Twig"], "extensions": [".twig"] }
+      {
+        "id": "twig",
+        "aliases": [
+          "Twig"
+        ],
+        "extensions": [
+          ".twig"
+        ]
+      }
     ],
     "snippets": [
-      { "language": "twig", "path": "./snippets/twig.json" },
-      { "language": "markdown", "path": "./snippets/markdown.json" }
+      {
+        "language": "twig",
+        "path": "./snippets/twig.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./snippets/markdown.json"
+      }
     ],
     "configurationDefaults": {
       "[markdown]": {
         "editor.snippetSuggestions": "top",
         "editor.suggestOnTriggerCharacters": true,
-        "editor.quickSuggestions": { "other": true, "comments": true, "strings": true },
+        "editor.quickSuggestions": {
+          "other": true,
+          "comments": true,
+          "strings": true
+        },
         "editor.quickSuggestionsDelay": 0,
         "editor.wordBasedSuggestions": "off"
       },
       "[twig]": {
         "editor.snippetSuggestions": "top",
         "editor.suggestOnTriggerCharacters": true,
-        "editor.quickSuggestions": { "other": true, "comments": true, "strings": true },
+        "editor.quickSuggestions": {
+          "other": true,
+          "comments": true,
+          "strings": true
+        },
         "editor.quickSuggestionsDelay": 0,
         "editor.wordBasedSuggestions": "off"
       }
     }
   },
-
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
@@ -99,7 +165,6 @@
     "lint": "eslint src || true",
     "test": "echo \"No tests yet\""
   },
-
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
