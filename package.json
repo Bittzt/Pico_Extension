@@ -2,7 +2,7 @@
   "name": "pico-helper",
   "displayName": "Pico Helper",
   "description": "Tools for creating Pico CMS content/themes: new Markdown with front matter, live preview, basic lint, snippets & autocomplete.",
-  "version": "0.0.7",
+  "version": "0.0.6",
   "publisher": "bittzt",
   "engines": {
     "vscode": "^1.102.0"
