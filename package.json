@@ -2,7 +2,7 @@
   "name": "pico-helper",
   "displayName": "Pico Helper",
   "description": "Tools for creating Pico CMS content/themes: new Markdown with front matter, live preview, basic lint, snippets & autocomplete.",
-  "version": "0.0.7",
+  "version": "0.0.12",
   "publisher": "bittzt",
   "engines": {
     "vscode": "^1.102.0"
@@ -18,7 +18,9 @@
     "lint",
     "preview",
     "snippet",
-    "autocomplete"
+    "autocomplete",
+    "static site",
+    "generator"
   ],
   "license": "MIT",
   "icon": "images/icon.png",
@@ -35,18 +37,56 @@
   },
   "homepage": "https://github.com/Bittzt/Pico_Extension#readme",
   "activationEvents": [
+    "onStartupFinished",
+    "onCommand:pico-helper.openSidebar",
     "onCommand:pico-helper.helloWorld",
     "onCommand:pico-helper.createMarkdown",
     "onCommand:pico-helper.preview",
     "onCommand:pico-helper.lintFile",
     "onCommand:pico-helper.login",
     "onCommand:pico-helper.register",
+    "onCommand:pico-helper.forgot",
+    "onCommand:pico-helper.contact",
+    "onCommand:pico-helper.profile",
+    "onCommand:pico-helper.logout",
+    "onCommand:pico-helper.openMarkdownSnippets",
+    "onCommand:pico-helper.openTwigSnippets",
+    "onCommand:pico-helper.openPhpSnippets",
+    "onCommand:pico-helper.plugin",
+    "onCommand:pico-helper.layout",
+    "onCommand:pico-helper.nav",
+    "onCommand:pico-helper.pagelist",
+    "onCommand:pico-helper.page",
+    "onCommand:pico-helper.blog",
     "onLanguage:markdown",
-    "onLanguage:twig"
+    "onLanguage:twig",
+    "onLanguage:php"
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "pico-helper-container",
+          "title": "Pico Helper",
+          "icon": "$(layers)"
+        }
+      ]
+    },
+    "views": {
+      "pico-helper-container": [
+        {
+          "id": "pico-helper-sidebar",
+          "name": "Pico Helper",
+          "type": "webview"
+        }
+      ]
+    },
     "commands": [
+      {
+        "command": "pico-helper.openSidebar",
+        "title": "Pico Helper: เปิด Sidebar"
+      },
       {
         "command": "pico-helper.helloWorld",
         "title": "Hello World"
@@ -65,14 +105,71 @@
       },
       {
         "command": "pico-helper.login",
-        "title": "Pico Helper: Login"
+        "title": "Pico: Login Template"
       },
       {
         "command": "pico-helper.register",
-        "title": "Pico Helper: Register"
+        "title": "Pico: Register Template"
+      },
+      {
+        "command": "pico-helper.forgot",
+        "title": "Pico: Forgot Password Template"
+      },
+      {
+        "command": "pico-helper.contact",
+        "title": "Pico: Contact Form Template"
+      },
+      {
+        "command": "pico-helper.profile",
+        "title": "Pico: Profile Template"
+      },
+      {
+        "command": "pico-helper.logout",
+        "title": "Pico: Logout Template"
+      },
+      {
+        "command": "pico-helper.openMarkdownSnippets",
+        "title": "Pico: Open Markdown Snippets"
+      },
+      {
+        "command": "pico-helper.openTwigSnippets",
+        "title": "Pico: Open Twig Snippets"
+      },
+      {
+        "command": "pico-helper.openPhpSnippets",
+        "title": "Pico: Open PHP Snippets"
+      },
+      {
+        "command": "pico-helper.plugin",
+        "title": "Pico CMS: Create Plugin"
+      },
+      {
+        "command": "pico-helper.layout",
+        "title": "Pico CMS: Create Layout"
+      },
+      {
+        "command": "pico-helper.nav",
+        "title": "Pico CMS: Create Nav"
+      },
+      {
+        "command": "pico-helper.pagelist",
+        "title": "Pico CMS: Create Page List"
+      },
+      {
+        "command": "pico-helper.page",
+        "title": "Pico CMS: Create Page"
+      },
+      {
+        "command": "pico-helper.blog",
+        "title": "Pico CMS: Create Blog"
       }
     ],
     "keybindings": [
+      {
+        "command": "pico-helper.openSidebar",
+        "key": "ctrl+shift+u",
+        "mac": "cmd+shift+u"
+      },
       {
         "command": "pico-helper.preview",
         "key": "ctrl+alt+v",
@@ -129,8 +226,16 @@
         "path": "./snippets/twig.json"
       },
       {
+        "language": "html",
+        "path": "./snippets/twig.json"
+      },
+      {
         "language": "markdown",
         "path": "./snippets/markdown.json"
+      },
+      {
+        "language": "php",
+        "path": "./snippets/php.json"
       }
     ],
     "configurationDefaults": {
@@ -155,6 +260,17 @@
         },
         "editor.quickSuggestionsDelay": 0,
         "editor.wordBasedSuggestions": "off"
+      },
+      "[php]": {
+        "editor.snippetSuggestions": "top",
+        "editor.suggestOnTriggerCharacters": true,
+        "editor.quickSuggestions": {
+          "other": true,
+          "comments": true,
+          "strings": true
+        },
+        "editor.quickSuggestionsDelay": 0,
+        "editor.wordBasedSuggestions": "off"
       }
     }
   },
@@ -167,7 +283,7 @@
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
+    "@types/node": "^20.19.39",
     "@types/vscode": "^1.102.0",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",

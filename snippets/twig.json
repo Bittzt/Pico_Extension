@@ -1,18 +1,368 @@
 {
-  "Twig: extends": {
-    "prefix": ["twig-extends"],
-    "body": ["{% extends \"${1:layout}.twig\" %}"]
-  },
-  "Twig: block": {
-    "prefix": ["twig-block"],
+  "!layout — Base Layout": {
+    "prefix": "!layout",
+    "description": "Pico CMS: Base Twig layout พร้อม block หลักครบ",
     "body": [
-      "{% block ${1:content} %}",
-      "  ${0}",
+      "<!DOCTYPE html>",
+      "<html lang=\"{{ config.locale|default('en') }}\">",
+      "<head>",
+      "    <meta charset=\"UTF-8\">",
+      "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+      "    <title>{% block title %}{{ meta.title }} — {{ config.site_title }}{% endblock %}</title>",
+      "",
+      "    {% block meta %}",
+      "        <meta name=\"description\" content=\"{{ meta.description|default(config.site_description) }}\">",
+      "        <meta name=\"author\" content=\"{{ meta.author|default(config.author) }}\">",
+      "        {% if meta.robots %}<meta name=\"robots\" content=\"{{ meta.robots }}\">{% endif %}",
+      "    {% endblock %}",
+      "",
+      "    {% block og %}",
+      "        <meta property=\"og:title\" content=\"{{ meta.title }}\">",
+      "        <meta property=\"og:description\" content=\"{{ meta.description|default(config.site_description) }}\">",
+      "        <meta property=\"og:type\" content=\"website\">",
+      "        <meta property=\"og:url\" content=\"{{ current_page.url }}\">",
+      "    {% endblock %}",
+      "",
+      "    <link rel=\"stylesheet\" href=\"{{ theme_url }}/css/${1:style}.css\">",
+      "    {% block styles %}{% endblock %}",
+      "</head>",
+      "<body class=\"{% block body_class %}{% endblock %}\">",
+      "",
+      "    {% block header %}",
+      "        <header>",
+      "            <a href=\"{{ base_url }}\">{{ config.site_title }}</a>",
+      "            {% block nav %}{% endblock %}",
+      "        </header>",
+      "    {% endblock %}",
+      "",
+      "    {% block main %}",
+      "        <main>",
+      "            {% block content %}",
+      "                {{ content }}",
+      "            {% endblock %}",
+      "        </main>",
+      "    {% endblock %}",
+      "",
+      "    {% block footer %}",
+      "        <footer>",
+      "            <p>&copy; {{ 'now'|date('Y') }} {{ config.site_title }}</p>",
+      "        </footer>",
+      "    {% endblock %}",
+      "",
+      "    <script src=\"{{ theme_url }}/js/${2:main}.js\"></script>",
+      "    {% block scripts %}{% endblock %}",
+      "</body>",
+      "</html>"
+    ]
+  },
+
+  "!childpage — Child Template": {
+    "prefix": "!childpage",
+    "description": "Pico CMS: Child template ที่ extends layout",
+    "body": [
+      "{% extends '${1:index}.twig' %}",
+      "",
+      "{% block title %}{{ meta.title }} — {{ config.site_title }}{% endblock %}",
+      "",
+      "{% block body_class %}page-${2:name}{% endblock %}",
+      "",
+      "{% block content %}",
+      "    <article>",
+      "        <header>",
+      "            <h1>{{ meta.title }}</h1>",
+      "            {% if meta.description %}",
+      "                <p class=\"lead\">{{ meta.description }}</p>",
+      "            {% endif %}",
+      "        </header>",
+      "        <div class=\"content\">",
+      "            {{ content }}",
+      "        </div>",
+      "    </article>",
+      "{% endblock %}",
+      "$0"
+    ]
+  },
+
+  "!nav — Navigation": {
+    "prefix": "!nav",
+    "description": "Pico CMS: Navigation loop พร้อม current page + hidden filter",
+    "body": [
+      "<nav>",
+      "    <ul>",
+      "    {% for page in pages %}",
+      "        {% if not page.hidden and page.id != '404' %}",
+      "        <li class=\"{% if page.id == current_page.id %}active{% endif %}\">",
+      "            <a href=\"{{ page.url }}\">{{ page.title }}</a>",
+      "        </li>",
+      "        {% endif %}",
+      "    {% endfor %}",
+      "    </ul>",
+      "</nav>",
+      "$0"
+    ]
+  },
+
+  "!pagelist — Page Listing": {
+    "prefix": "!pagelist",
+    "description": "Pico CMS: แสดงรายการ pages/posts พร้อม meta ครบ",
+    "body": [
+      "<ul class=\"page-list\">",
+      "{% for page in pages %}",
+      "    {% if not page.hidden and page.id starts with '${1:blog}/' %}",
+      "    <li>",
+      "        <a href=\"{{ page.url }}\">{{ page.title }}</a>",
+      "        {% if page.date %}",
+      "            <time datetime=\"{{ page.date_formatted }}\">{{ page.date_formatted }}</time>",
+      "        {% endif %}",
+      "        {% if page.description %}",
+      "            <p>{{ page.description }}</p>",
+      "        {% endif %}",
+      "        {% if page.tags %}",
+      "            <ul class=\"tags\">",
+      "                {% for tag in page.tags %}<li>{{ tag }}</li>{% endfor %}",
+      "            </ul>",
+      "        {% endif %}",
+      "    </li>",
+      "    {% endif %}",
+      "{% else %}",
+      "    <li>No posts found.</li>",
+      "{% endfor %}",
+      "</ul>",
+      "$0"
+    ]
+  },
+
+  "!meta — SEO Meta Tags": {
+    "prefix": "!meta",
+    "description": "Pico CMS: SEO meta + Open Graph + Twitter Card",
+    "body": [
+      "<meta name=\"description\" content=\"{{ meta.description|default(config.site_description)|e }}\">",
+      "<meta name=\"author\" content=\"{{ meta.author|default(config.author)|e }}\">",
+      "<meta name=\"keywords\" content=\"{{ meta.keywords|default('')|e }}\">",
+      "{% if meta.robots %}<meta name=\"robots\" content=\"{{ meta.robots|e }}\">{% endif %}",
+      "",
+      "<!-- Open Graph -->",
+      "<meta property=\"og:title\" content=\"{{ meta.title|e }}\">",
+      "<meta property=\"og:description\" content=\"{{ meta.description|default(config.site_description)|e }}\">",
+      "<meta property=\"og:url\" content=\"{{ current_page.url }}\">",
+      "<meta property=\"og:type\" content=\"${1|website,article|}\">",
+      "{% if meta.image %}<meta property=\"og:image\" content=\"{{ meta.image }}\">{% endif %}",
+      "",
+      "<!-- Twitter Card -->",
+      "<meta name=\"twitter:card\" content=\"summary${2|,_large_image|}\">",
+      "<meta name=\"twitter:title\" content=\"{{ meta.title|e }}\">",
+      "<meta name=\"twitter:description\" content=\"{{ meta.description|default(config.site_description)|e }}\">",
+      "$0"
+    ]
+  },
+
+  "!pagination — Pagination": {
+    "prefix": "!pagination",
+    "description": "Pico CMS: Prev/Next page links",
+    "body": [
+      "{% if previous_page or next_page %}",
+      "<nav class=\"pagination\" aria-label=\"Page navigation\">",
+      "    {% if previous_page %}",
+      "        <a href=\"{{ previous_page.url }}\" rel=\"prev\">&larr; {{ previous_page.title }}</a>",
+      "    {% endif %}",
+      "    {% if next_page %}",
+      "        <a href=\"{{ next_page.url }}\" rel=\"next\">{{ next_page.title }} &rarr;</a>",
+      "    {% endif %}",
+      "</nav>",
+      "{% endif %}",
+      "$0"
+    ]
+  },
+
+  "!breadcrumb — Breadcrumb": {
+    "prefix": "!breadcrumb",
+    "description": "Pico CMS: Auto breadcrumb จาก page ID",
+    "body": [
+      "<nav aria-label=\"Breadcrumb\">",
+      "    <ol>",
+      "        <li><a href=\"{{ base_url }}\">Home</a></li>",
+      "        {% set parts = current_page.id|split('/') %}",
+      "        {% set path = '' %}",
+      "        {% for part in parts %}",
+      "            {% set path = path ~ (loop.first ? '' : '/') ~ part %}",
+      "            {% if not loop.last %}",
+      "                <li><a href=\"{{ base_url }}/{{ path }}\">{{ part|replace({'_': ' ', '-': ' '})|title }}</a></li>",
+      "            {% else %}",
+      "                <li aria-current=\"page\">{{ current_page.title }}</li>",
+      "            {% endif %}",
+      "        {% endfor %}",
+      "    </ol>",
+      "</nav>",
+      "$0"
+    ]
+  },
+
+  "!loginform — Login Form (HTML)": {
+    "prefix": "!loginform",
+    "description": "Pico CMS: HTML login form สำหรับ Twig",
+    "body": [
+      "<form method=\"POST\" action=\"\" novalidate>",
+      "    <input type=\"hidden\" name=\"csrf_token\" value=\"{{ csrf_token }}\">",
+      "",
+      "    {% if error %}<div class=\"alert alert-error\">{{ error }}</div>{% endif %}",
+      "",
+      "    <div class=\"form-group\">",
+      "        <label for=\"username\">Username</label>",
+      "        <input type=\"text\" id=\"username\" name=\"username\"",
+      "               value=\"{{ username|default('') }}\" autocomplete=\"username\" required>",
+      "    </div>",
+      "",
+      "    <div class=\"form-group\">",
+      "        <label for=\"password\">Password</label>",
+      "        <input type=\"password\" id=\"password\" name=\"password\"",
+      "               autocomplete=\"current-password\" required>",
+      "    </div>",
+      "",
+      "    <button type=\"submit\">Login</button>",
+      "    <a href=\"${1:/forgot-password}\">Forgot password?</a>",
+      "</form>",
+      "$0"
+    ]
+  },
+
+  "!registerform — Register Form (HTML)": {
+    "prefix": "!registerform",
+    "description": "Pico CMS: HTML register form สำหรับ Twig",
+    "body": [
+      "<form method=\"POST\" action=\"\" novalidate>",
+      "    <input type=\"hidden\" name=\"csrf_token\" value=\"{{ csrf_token }}\">",
+      "",
+      "    {% if error %}<div class=\"alert alert-error\">{{ error }}</div>{% endif %}",
+      "    {% if success %}<div class=\"alert alert-success\">{{ success }}</div>{% endif %}",
+      "",
+      "    <div class=\"form-group\">",
+      "        <label for=\"username\">Username</label>",
+      "        <input type=\"text\" id=\"username\" name=\"username\"",
+      "               value=\"{{ username|default('') }}\" autocomplete=\"username\" required>",
+      "    </div>",
+      "",
+      "    <div class=\"form-group\">",
+      "        <label for=\"email\">Email</label>",
+      "        <input type=\"email\" id=\"email\" name=\"email\"",
+      "               value=\"{{ email|default('') }}\" autocomplete=\"email\" required>",
+      "    </div>",
+      "",
+      "    <div class=\"form-group\">",
+      "        <label for=\"password\">Password</label>",
+      "        <input type=\"password\" id=\"password\" name=\"password\"",
+      "               autocomplete=\"new-password\" minlength=\"${1:8}\" required>",
+      "    </div>",
+      "",
+      "    <div class=\"form-group\">",
+      "        <label for=\"confirm_password\">Confirm Password</label>",
+      "        <input type=\"password\" id=\"confirm_password\" name=\"confirm_password\"",
+      "               autocomplete=\"new-password\" required>",
+      "    </div>",
+      "",
+      "    <button type=\"submit\">Create Account</button>",
+      "</form>",
+      "$0"
+    ]
+  },
+
+  "!contactform — Contact Form (HTML)": {
+    "prefix": "!contactform",
+    "description": "Pico CMS: HTML contact form สำหรับ Twig",
+    "body": [
+      "<form method=\"POST\" action=\"\" novalidate>",
+      "    <input type=\"hidden\" name=\"csrf_token\" value=\"{{ csrf_token }}\">",
+      "",
+      "    {% if error %}<div class=\"alert alert-error\">{{ error }}</div>{% endif %}",
+      "    {% if success %}<div class=\"alert alert-success\">{{ success }}</div>{% endif %}",
+      "",
+      "    <div class=\"form-group\">",
+      "        <label for=\"name\">Name *</label>",
+      "        <input type=\"text\" id=\"name\" name=\"name\"",
+      "               value=\"{{ name|default('') }}\" required>",
+      "    </div>",
+      "",
+      "    <div class=\"form-group\">",
+      "        <label for=\"email\">Email *</label>",
+      "        <input type=\"email\" id=\"email\" name=\"email\"",
+      "               value=\"{{ email|default('') }}\" required>",
+      "    </div>",
+      "",
+      "    <div class=\"form-group\">",
+      "        <label for=\"subject\">Subject</label>",
+      "        <input type=\"text\" id=\"subject\" name=\"subject\"",
+      "               value=\"{{ subject|default('') }}\">",
+      "    </div>",
+      "",
+      "    <div class=\"form-group\">",
+      "        <label for=\"message\">Message *</label>",
+      "        <textarea id=\"message\" name=\"message\" required>{{ message|default('') }}</textarea>",
+      "    </div>",
+      "",
+      "    <button type=\"submit\">Send Message</button>",
+      "</form>",
+      "$0"
+    ]
+  },
+
+  "!flash — Flash Messages": {
+    "prefix": "!flash",
+    "description": "Pico CMS: แสดง success/error flash message",
+    "body": [
+      "{% if success %}",
+      "    <div class=\"alert alert-success\">{{ success }}</div>",
+      "{% endif %}",
+      "{% if error %}",
+      "    <div class=\"alert alert-error\">{{ error }}</div>",
+      "{% endif %}",
+      "$0"
+    ]
+  },
+
+  "!dump — Debug Dump": {
+    "prefix": "!dump",
+    "description": "Pico CMS: Debug dump Twig variable (ลบก่อน deploy)",
+    "body": [
+      "<pre>{{ dump(${1:variable}) }}</pre>",
+      "$0"
+    ]
+  },
+
+  "twig-block": {
+    "prefix": "twig-block",
+    "description": "Twig: {% block %}...{% endblock %}",
+    "body": [
+      "{% block ${1:name} %}",
+      "    ${0}",
       "{% endblock %}"
     ]
   },
-  "Twig: include": {
-    "prefix": ["twig-include"],
-    "body": ["{% include \"${1:partials/header}.twig\" %}"]
+
+  "twig-include": {
+    "prefix": "twig-include",
+    "description": "Twig: {% include %}",
+    "body": [
+      "{% include '${1:template}.twig' %}",
+      "$0"
+    ]
+  },
+
+  "twig-for": {
+    "prefix": "twig-for",
+    "description": "Twig: {% for %}...{% endfor %}",
+    "body": [
+      "{% for ${1:item} in ${2:items} %}",
+      "    ${0}",
+      "{% endfor %}"
+    ]
+  },
+
+  "twig-if": {
+    "prefix": "twig-if",
+    "description": "Twig: {% if %}...{% endif %}",
+    "body": [
+      "{% if ${1:condition} %}",
+      "    ${0}",
+      "{% endif %}"
+    ]
   }
 }

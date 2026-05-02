@@ -1,17 +1,108 @@
 {
-  "Pico: Front Matter": {
-    "prefix": ["pico-front", "front"],
+  "!page — Pico Page": {
+    "prefix": "!page",
+    "description": "Pico CMS: หน้า Markdown พื้นฐานพร้อม front matter",
+    "body": [
+      "---",
+      "Title:       ${1:Page Title}",
+      "Description: ${2:A short description of this page.}",
+      "Author:      ${3:Your Name}",
+      "Date:        $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+      "Template:    ${4:index}",
+      "---",
+      "",
+      "## ${1:Page Title}",
+      "",
+      "${0:Write your content here using Markdown.}"
+    ]
+  },
+
+  "!blog — Blog Post": {
+    "prefix": "!blog",
+    "description": "Pico CMS: Blog post พร้อม front matter ครบ (tags, date, author)",
+    "body": [
+      "---",
+      "Title:       ${1:Post Title}",
+      "Description: ${2:A brief summary of this post.}",
+      "Author:      ${3:Your Name}",
+      "Date:        $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:00",
+      "Template:    ${4:blog-post}",
+      "Tags:        [${5:tag1, tag2}]",
+      "---",
+      "",
+      "## ${1:Post Title}",
+      "",
+      "${0:Write your blog content here.}"
+    ]
+  },
+
+  "!fm — Front Matter": {
+    "prefix": "!fm",
+    "description": "Pico CMS: YAML front matter พื้นฐาน",
+    "body": [
+      "---",
+      "Title:       ${1:Title}",
+      "Description: ${2:Description}",
+      "Author:      ${3:Author}",
+      "Date:        $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+      "Template:    ${4:index}",
+      "Hidden:      ${5|false,true|}",
+      "---",
+      "$0"
+    ]
+  },
+
+  "!fmfull — Front Matter Full": {
+    "prefix": "!fmfull",
+    "description": "Pico CMS: Front matter แบบเต็มทุก field",
+    "body": [
+      "---",
+      "Title:        ${1:Page Title}",
+      "Description:  ${2:Page description for SEO}",
+      "Author:       ${3:Your Name}",
+      "Date:         $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+      "Robots:       ${4|index\\, follow,noindex\\, nofollow,noindex\\, follow|}",
+      "Template:     ${5:index}",
+      "Hidden:       ${6|false,true|}",
+      "Tags:         [${7:tag1, tag2}]",
+      "Image:        ${8:%assets_url%/images/cover.jpg}",
+      "---",
+      "$0"
+    ]
+  },
+
+  "!config — Config Front Matter": {
+    "prefix": "!config",
+    "description": "Pico CMS: Front matter สำหรับ config เฉพาะ page",
+    "body": [
+      "---",
+      "Title:        ${1:Page Title}",
+      "Description:  ${2:Page description}",
+      "Author:       ${3:Author Name}",
+      "Date:         $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+      "Template:     ${4:index}",
+      "Hidden:       ${5|false,true|}",
+      "Tags:         [${6:tag1, tag2}]",
+      "Custom:       ${7:custom_value}",
+      "---",
+      "$0"
+    ]
+  },
+
+  "pico-front — Pico Front Matter (autocomplete)": {
+    "prefix": "pico-front",
+    "description": "Pico CMS: Front matter ผ่าน autocomplete (พิมพ์ p)",
     "body": [
       "---",
       "Title: ${1:ชื่อบทความ}",
       "Description: ${2:คำอธิบาย}",
       "Author: ${3:ผู้เขียน}",
-      "Date: ${4:2025-08-29}",
-      "Template: ${5:index}",
-      "Tags: [${6:tag1, tag2}]",
+      "Date: $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+      "Template: ${4:index}",
+      "Tags: [${5:tag1, tag2}]",
       "---",
-      "",
       "# ${1:ชื่อบทความ}",
+      "",
       "${0:เนื้อหาเริ่มต้น}"
     ]
   }
