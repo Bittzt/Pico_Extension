@@ -227,6 +227,16 @@ Default editor settings for **Markdown**, **Twig**, and **PHP** include:
 
 ## 📝 Release Notes
 
+### 0.0.13 
+- แก้ไขปัญหาเวอร์ชันไม่ตรงกับ Marketplace  
+- ปรับปรุงภายในเล็กน้อย 
+
+**EN:**
+- Fixed version mismatch with Marketplace  
+- Minor internal improvements 
+
+---
+
 ### 0.0.12
 - เพิ่ม **Snippet Picker** — เลือก snippet จาก Quick Pick menu ใน Sidebar ได้เลย ไม่ต้องจำ prefix
 - รองรับ snippet สำหรับ Markdown, Twig และ PHP แยก picker ชัดเจน
