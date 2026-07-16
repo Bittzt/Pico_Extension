@@ -227,6 +227,16 @@ Default editor settings for **Markdown**, **Twig**, and **PHP** include:
 
 ## 📝 Release Notes
 
+### 0.0.15
+- ขยาย snippet `!layout` และ `!theme` ให้รองรับ SEO meta เพิ่มเติม: `keywords`, `robots`, `canonical`, `theme-color`, `og:image`, `twitter:image` และ favicon placeholders
+- เพิ่ม boilerplate meta/OG/Twitter card ในตัวอย่างธีม เพื่อให้ไขว้ใช้ได้กับทุกหน้าที่มี `meta.image`
+- ปรับให้ `!layout` มี accessibility support เพิ่มเติม เช่น `skip-link`, `main id="main" role="main"`, และ navigation aria attribute
+
+**EN:**
+- Extended `!layout` and `!theme` snippets with extra SEO meta support: `keywords`, `robots`, `canonical`, `theme-color`, `og:image`, `twitter:image`, and favicon placeholders
+- Added theme boilerplate for Open Graph and Twitter Card markup so demo pages can render social preview metadata when `meta.image` is present
+- Improved snippet accessibility with `skip-link`, `main id="main" role="main"`, and a more semantic navigation aria label
+
 ### 0.0.14
 - ปรับตัวอย่าง Twig snippets `!layout`, `!nav`, `!pagelist`, และ `!theme` ให้ใช้ markup และ class ที่พร้อมสำหรับ CSS ธีมมากขึ้น
 - อัปเดตคำสั่ง `pico-helper.nav` และ `pico-helper.pagelist` ให้สร้าง template output แบบเดียวกับ snippets เพื่อให้ใช้งานได้ตรงกัน
