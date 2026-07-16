@@ -227,6 +227,20 @@ Default editor settings for **Markdown**, **Twig**, and **PHP** include:
 
 ## 📝 Release Notes
 
+### 0.0.14
+- ปรับตัวอย่าง Twig snippets `!layout`, `!nav`, `!pagelist`, และ `!theme` ให้ใช้ markup และ class ที่พร้อมสำหรับ CSS ธีมมากขึ้น
+- อัปเดตคำสั่ง `pico-helper.nav` และ `pico-helper.pagelist` ให้สร้าง template output แบบเดียวกับ snippets เพื่อให้ใช้งานได้ตรงกัน
+- ปรับสไตล์ Login/Register template ในคำสั่ง `!login` และ `!register` ให้เป็นโค้ด CSS modern มากขึ้น พร้อม layout card แบบ responsive
+- รองรับโครงสร้าง `<nav class="site-nav">`, `<ul class="site-menu">`, `<section class="page-list-section">`, และ `.page-list-item`
+
+**EN:**
+- Updated Twig snippets `!layout`, `!nav`, `!pagelist`, and `!theme` to emit cleaner markup and theme-ready CSS classes
+- Synced generated output for `pico-helper.nav` and `pico-helper.pagelist` commands with the snippet definitions
+- Improved the CSS styling of `!login` and `!register` templates for a modern card layout and responsive form design
+- Added support for structured theme classes such as `<nav class="site-nav">`, `<ul class="site-menu">`, `<section class="page-list-section">`, and `.page-list-item`
+
+---
+
 ### 0.0.13 
 - แก้ไขปัญหาเวอร์ชันไม่ตรงกับ Marketplace  
 - ปรับปรุงภายในเล็กน้อย 

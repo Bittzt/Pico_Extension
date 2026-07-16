@@ -65,6 +65,9 @@ class PicoSidebarProvider implements vscode.WebviewViewProvider {
         case "pagelist":
           vscode.commands.executeCommand("pico-helper.pagelist");
           break;
+        case "theme":
+          vscode.commands.executeCommand("pico-helper.theme");
+          break;
         case "page":
           vscode.commands.executeCommand("pico-helper.page");
           break;
@@ -174,6 +177,7 @@ class PicoSidebarProvider implements vscode.WebviewViewProvider {
         <div class="section-label">Twig / Theme</div>
         <div class="btn-grid">
           <button onclick="send('layout')"><span class="icon">🗂</span><span class="label">!layout</span></button>
+          <button onclick="send('theme')"><span class="icon">🎨</span><span class="label">!theme</span></button>
           <button onclick="send('nav')"><span class="icon">🔗</span><span class="label">!nav</span></button>
           <button onclick="send('pagelist')"><span class="icon">📋</span><span class="label">!pagelist</span></button>
           <button class="wide" onclick="send('twigSnippets')"><span class="icon">🧩</span><span class="label">Open Twig snippets</span></button>
@@ -644,18 +648,129 @@ context.subscriptions.push(
 
     const editor = vscode.window.activeTextEditor;
 
-    const loginTemplate = `<!-- Login Template -->
-<div class="login-box">
-  <h2>Login</h2>
+    const loginTemplate = `<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+    }
 
-  <form method="POST" action="/login">
-    <input type="email" name="email" placeholder="Email" required />
-    <input type="password" name="password" placeholder="Password" required />
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <button type="submit">Login</button>
-  </form>
-</div>
-`;
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+      background: radial-gradient(circle at top, rgba(59,130,246,.12), transparent 32%),
+                  linear-gradient(180deg, #e2e8f0 0%, #f8fafc 100%);
+    }
+
+    .login-card {
+      width: min(420px, 100%);
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 25px 80px rgba(15, 23, 42, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      overflow: hidden;
+    }
+
+    .login-header {
+      padding: 2rem 2rem 1.5rem;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+    }
+
+    .login-header h1 {
+      font-size: 1.9rem;
+      line-height: 1.1;
+      margin-bottom: 0.35rem;
+    }
+
+    .login-header p {
+      margin-top: 0.5rem;
+      opacity: 0.85;
+      font-size: 0.95rem;
+    }
+
+    .login-body {
+      padding: 2rem;
+    }
+
+    .login-body form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .login-body input {
+      width: 100%;
+      padding: 0.95rem 1rem;
+      border-radius: 0.85rem;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      font-size: 0.98rem;
+      color: #0f172a;
+    }
+
+    .login-body input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+    }
+
+    .login-body button {
+      width: 100%;
+      padding: 0.95rem 1rem;
+      border-radius: 0.95rem;
+      border: none;
+      font-weight: 700;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .login-body button:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .login-body .help-text {
+      font-size: 0.95rem;
+      color: #64748b;
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="login-header">
+      <h1>เข้าสู่ระบบ</h1>
+      <p>กรุณาเข้าสู่ระบบเพื่อใช้งานเว็บไซต์</p>
+    </div>
+    <div class="login-body">
+      <form method="POST" action="/login">
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+      <p class="help-text">ลืมรหัสผ่าน? เลือกหน้าลืมรหัสผ่านในเมนู</p>
+    </div>
+  </div>
+</body>
+</html>`;
 
     // =========================
     // ✅ INSERT MODE (มีไฟล์เปิดอยู่)
@@ -702,66 +817,124 @@ context.subscriptions.push(
     const editor = vscode.window.activeTextEditor;
 
     const registerTemplate = `<!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
-
   <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: system-ui;
-      background: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+      background: linear-gradient(180deg, #e2e8f0 0%, #f8fafc 100%);
     }
 
-    .register-box {
+    .register-card {
+      width: min(480px, 100%);
       background: white;
-      padding: 30px;
-      border-radius: 10px;
-      width: 300px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 1.5rem;
+      box-shadow: 0 25px 80px rgba(15, 23, 42, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      overflow: hidden;
     }
 
-    input, button {
+    .register-header {
+      padding: 2rem;
+      background: #ffffff;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    }
+
+    .register-header h1 {
+      font-size: 1.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .register-header p {
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    .register-body {
+      padding: 2rem;
+    }
+
+    .register-body form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .register-body input {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      padding: 1rem 1.05rem;
+      border-radius: 0.95rem;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      font-size: 1rem;
+      color: #0f172a;
     }
 
-    button {
-      background: #007acc;
-      color: white;
+    .register-body input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+    }
+
+    .register-body button {
+      width: 100%;
+      padding: 1rem 1.05rem;
+      border-radius: 1rem;
       border: none;
-      font-weight: bold;
+      font-weight: 700;
+      background: #2563eb;
+      color: white;
       cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
     }
 
-    button:hover {
-      background: #005f99;
+    .register-body button:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .register-body .help-text {
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+      color: #64748b;
+      text-align: center;
     }
   </style>
 </head>
-
 <body>
-
-  <div class="register-box">
-    <h2>Register</h2>
-
-    <form method="POST" action="/register">
-      <input type="email" name="email" placeholder="Email" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <input type="password" name="confirm_password" placeholder="Confirm Password" required />
-
-      <button type="submit">Register</button>
-    </form>
-
+  <div class="register-card">
+    <div class="register-header">
+      <h1>สมัครสมาชิก</h1>
+      <p>สร้างบัญชีเพื่อเข้าถึงเนื้อหาและฟีเจอร์เพิ่มเติม</p>
+    </div>
+    <div class="register-body">
+      <form method="POST" action="/register">
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <input type="password" name="confirm_password" placeholder="Confirm Password" required />
+        <button type="submit">Register</button>
+      </form>
+      <p class="help-text">มีบัญชีแล้ว? กลับไปยังหน้าล็อกอินเพื่อเข้าสู่ระบบ</p>
+    </div>
   </div>
-
 </body>
 </html>`;
 
@@ -1117,25 +1290,47 @@ exit;
         "        <meta name=\"description\" content=\"{{ meta.description|default(config.site_description) }}\">",
         "        <meta name=\"author\" content=\"{{ meta.author|default(config.author) }}\">",
         "    {% endblock %}",
-        "    <link rel=\"stylesheet\" href=\"{{ theme_url }}/css/style.css\">",
-        "    {% block styles %}{% endblock %}",
+        "    <style>",
+        "        :root { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #0f172a; background: #f8fafc; }",
+        "        * { box-sizing: border-box; margin: 0; padding: 0; }",
+        "        html { scroll-behavior: smooth; }",
+        "        body { background: #f1f5f9; color: #0f172a; line-height: 1.75; min-height: 100vh; }",
+        "        body, html { width: 100%; }",
+        "        .site-shell { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }",
+        "        header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 1.5rem 2rem; border-radius: 1.5rem; box-shadow: 0 20px 50px rgba(15,23,42,.12); }",
+        "        .brand { font-size: 1.45rem; font-weight: 700; text-decoration: none; color: white; }",
+        "        nav.site-nav { display: flex; flex-wrap: wrap; gap: 0.85rem; }",
+        "        nav.site-nav a { display: inline-flex; padding: 0.7rem 1rem; border-radius: 0.85rem; color: #cbd5e1; text-decoration: none; background: rgba(255,255,255,0.08); transition: all 0.2s ease; }",
+        "        nav.site-nav a:hover, nav.site-nav .active a { background: rgba(255,255,255,0.18); color: white; }",
+        "        main { background: white; border-radius: 0 0 1.5rem 1.5rem; padding: 2rem; border: 1px solid rgba(148,163,184,.16); box-shadow: 0 20px 50px rgba(15,23,42,.08); margin-top: -1.5rem; }",
+        "        .page-card { max-width: 960px; margin: 0 auto; }",
+        "        h1 { font-size: clamp(2rem, 2.4vw, 3rem); margin-bottom: 1rem; }",
+        "        .lead { margin-top: 0.75rem; color: #475569; }",
+        "        footer { text-align: center; margin: 2rem auto 0; color: #64748b; font-size: 0.95rem; }",
+        "        @media (max-width: 720px) { header { padding: 1.25rem 1rem; } main { margin-top: 0; padding: 1.5rem; } nav.site-nav { justify-content: center; } }",
+        "    </style>",
         "</head>",
         "<body class=\"{% block body_class %}{% endblock %}\">",
-        "    {% block header %}",
-        "        <header>",
-        "            <a href=\"{{ base_url }}\">{{ config.site_title }}</a>",
-        "        </header>",
-        "    {% endblock %}",
-        "    {% block main %}",
-        "        <main>",
-        "            {% block content %}{{ content }}{% endblock %}",
-        "        </main>",
-        "    {% endblock %}",
-        "    {% block footer %}",
-        "        <footer>",
-        "            <p>&copy; {{ 'now'|date('Y') }} {{ config.site_title }}</p>",
-        "        </footer>",
-        "    {% endblock %}",
+        "    <div class=\"site-shell\">",
+        "        {% block header %}",
+        "            <header>",
+        "                <a class=\"brand\" href=\"{{ base_url }}\">{{ config.site_title }}</a>",
+        "                {% block nav %}{% endblock %}",
+        "            </header>",
+        "        {% endblock %}",
+        "        {% block main %}",
+        "            <main>",
+        "                <section class=\"page-card\">",
+        "                    {% block content %}{{ content }}{% endblock %}",
+        "                </section>",
+        "            </main>",
+        "        {% endblock %}",
+        "        {% block footer %}",
+        "            <footer>",
+        "                <p>&copy; {{ 'now'|date('Y') }} {{ config.site_title }}</p>",
+        "            </footer>",
+        "        {% endblock %}",
+        "    </div>",
         "    <script src=\"{{ theme_url }}/js/main.js\"></script>",
         "    {% block scripts %}{% endblock %}",
         "</body>",
@@ -1151,8 +1346,8 @@ exit;
 // ===============================
   context.subscriptions.push(
     vscode.commands.registerCommand("pico-helper.nav", async () => {
-      const tpl = `<nav>
-    <ul>
+      const tpl = `<nav class="site-nav">
+    <ul class="site-menu">
     {% for page in pages %}
         {% if not page.hidden and page.id != '404' %}
         <li class="{% if page.id == current_page.id %}active{% endif %}">
@@ -1172,21 +1367,91 @@ exit;
 // ===============================
   context.subscriptions.push(
     vscode.commands.registerCommand("pico-helper.pagelist", async () => {
-      const tpl = `<ul class="page-list">
-{% for page in pages %}
-    {% if not page.hidden and page.id starts with 'blog/' %}
-    <li>
-        <a href="{{ page.url }}">{{ page.title }}</a>
-        {% if page.date %}<time>{{ page.date_formatted }}</time>{% endif %}
-        {% if page.description %}<p>{{ page.description }}</p>{% endif %}
-    </li>
-    {% endif %}
-{% else %}
-    <li>No posts found.</li>
-{% endfor %}
-</ul>
+      const tpl = `<section class="page-list-section">
+    <ul class="page-list">
+    {% for page in pages %}
+        {% if not page.hidden and page.id starts with 'blog/' %}
+        <li class="page-list-item">
+            <a href="{{ page.url }}">{{ page.title }}</a>
+            {% if page.date %}<time datetime="{{ page.date_formatted }}">{{ page.date_formatted }}</time>{% endif %}
+            {% if page.description %}<p>{{ page.description }}</p>{% endif %}
+            {% if page.tags %}
+                <ul class="tags">
+                    {% for tag in page.tags %}<li>{{ tag }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+        </li>
+        {% endif %}
+    {% else %}
+        <li>No posts found.</li>
+    {% endfor %}
+    </ul>
+</section>
 `;
       await insertTemplate(tpl, "_pagelist.twig", "!pagelist");
+    }),
+  );
+
+  // ===============================
+  // !theme — Full Theme Template
+  // ===============================
+  context.subscriptions.push(
+    vscode.commands.registerCommand("pico-helper.theme", async () => {
+      const lines = [
+        "<!DOCTYPE html>",
+        "<html lang=\"th\">",
+        "<head>",
+        "    <meta charset=\"UTF-8\">",
+        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+        "    <title>{{ meta.title }} — {{ config.site_title }}</title>",
+        "    <style>",
+        "        * { box-sizing: border-box; margin: 0; padding: 0; }",
+        "        html { scroll-behavior: smooth; }",
+        "        body { font-family: Inter, system-ui, sans-serif; background: #f8fafc; color: #111827; line-height: 1.7; }",
+        "        a { color: #2563eb; text-decoration: none; }",
+        "        a:hover { text-decoration: underline; }",
+        "        header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 1.25rem 1.5rem; }",
+        "        .header-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }",
+        "        .brand { font-size: 1.35rem; font-weight: 700; }",
+        "        .site-nav { display: flex; gap: 1rem; flex-wrap: wrap; }",
+        "        .site-nav a { padding: 0.5rem 0.75rem; border-radius: 0.65rem; color: #cbd5e1; }",
+        "        .site-nav a:hover, .site-nav .active a { background: rgba(255,255,255,0.1); color: white; }",
+        "        main { max-width: 980px; margin: 2rem auto; padding: 0 1.5rem; }",
+        "        .page-card { background: white; border-radius: 1.5rem; box-shadow: 0 20px 50px rgba(15,23,42,0.08); border: 1px solid rgba(148,163,184,0.16); padding: 2rem; }",
+        "        h1 { font-size: clamp(2rem, 2.4vw, 3rem); margin-bottom: 1rem; }",
+        "        .lead { margin-top: 0.75rem; color: #475569; }",
+        "        footer { text-align: center; margin: 3rem auto 1rem; color: #64748b; font-size: 0.95rem; }",
+        "        @media (max-width: 720px) { .header-inner { flex-direction: column; align-items: stretch; } main { margin: 1.25rem auto; padding: 0 1rem; } }",
+        "    </style>",
+        "</head>",
+        "<body>",
+        "    <header>",
+        "        <div class=\"header-inner\">",
+        "            <a class=\"brand\" href=\"{{ base_url }}\">{{ config.site_title }}</a>",
+        "            <nav class=\"site-nav\">",
+        "                {% for page in pages %}",
+        "                    {% if not page.hidden and page.id != '404' %}",
+        "                        <a class=\"{% if page.id == current_page.id %}active{% endif %}\" href=\"{{ page.url }}\">{{ page.title }}</a>",
+        "                    {% endif %}",
+        "                {% endfor %}",
+        "            </nav>",
+        "        </div>",
+        "    </header>",
+        "    <main>",
+        "        <section class=\"page-card\">",
+        "            <h1>{{ meta.title }}</h1>",
+        "            {% if meta.description %}<p class=\"lead\">{{ meta.description }}</p>{% endif %}",
+        "            {{ content }}",
+        "        </section>",
+        "    </main>",
+        "    <footer>",
+        "        <p>&copy; {{ 'now'|date('Y') }} {{ config.site_title }}</p>",
+        "    </footer>",
+        "</body>",
+        "</html>",
+      ];
+      const tpl = lines.join("\n") + "\n";
+      await insertTemplate(tpl, "theme.twig", "!theme");
     }),
   );
 
